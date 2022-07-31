@@ -30,6 +30,7 @@
 		public function __construct(Request $request, Response $response)
 		{
 			$this->request = $request;
+			$this->response = $response;
 		}
 
 		/**
@@ -40,6 +41,11 @@
 		public function get($path, $callback): void
 		{
 			$this->routes['get'][$path] = $callback;
+		}
+
+		public function post($path, $callback): void
+		{
+			$this->routes['post'][$path] = $callback;
 		}
 
 		/**
@@ -54,8 +60,9 @@
 
 			if ($callback === false)
 			{
-				Application::$app->response->setStatusCode(404);
-				return 'Not found';
+				$this->response->setStatusCode(404);
+				//return $this->renderContent('Not found');
+				return $this->renderView("_404");
 			}
 
 			if (is_string($callback))
@@ -68,12 +75,18 @@
 
 		/**
 		 * @param $view
-		 * @return array|bool|string|string[]
+		 * @return array|bool|string
 		 */
-		public function renderView($view)
+		public function renderView($view): array|bool|string
 		{
 			$layoutContent = $this->layoutContent();
 			$viewContent = $this->renderOnlyView($view);
+			return str_replace('{{content}}', $viewContent, $layoutContent);
+		}
+
+		public function renderContent($viewContent): array|bool|string
+		{
+			$layoutContent = $this->layoutContent();
 			return str_replace('{{content}}', $viewContent, $layoutContent);
 		}
 

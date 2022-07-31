@@ -12,4 +12,8 @@
 
 	$app->router->get('/contacts', 'contacts');
 
+	$app->router->post('/contacts', function() {
+		return 'Handling submitted data';
+	});
+
 	$app->run();

@@ -9,7 +9,8 @@
     ],
     "autoload": {
         "psr-4": {
-            "app\\": "./"
+            "app\\": "./",
+            "app\\controllers\\": "./src/controllers"
         }
     },
     "require": {}
