@@ -1,0 +1,16 @@
+{
+    "name": "magida-software/mvcframework",
+    "description": "MVC Framework",
+    "authors": [
+        {
+            "name": "daniel magida",
+            "email": "daniel.t.magida@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "app\\": "./"
+        }
+    },
+    "require": {}
+}
