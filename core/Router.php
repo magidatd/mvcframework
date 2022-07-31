@@ -70,17 +70,18 @@
 				return $this->renderView($callback);
 			}
 
-			return call_user_func($callback);
+			return call_user_func($this->isCheck($callback), $this->request);
 		}
 
 		/**
-		 * @param $view
+		 * @param       $view
+		 * @param array $params
 		 * @return array|bool|string
 		 */
-		public function renderView($view): array|bool|string
+		public function renderView($view, array $params = []): array|bool|string
 		{
 			$layoutContent = $this->layoutContent();
-			$viewContent = $this->renderOnlyView($view);
+			$viewContent = $this->renderOnlyView($view, $params);
 			return str_replace('{{content}}', $viewContent, $layoutContent);
 		}
 
@@ -102,12 +103,27 @@
 
 		/**
 		 * @param $view
+		 * @param $params
 		 * @return bool|string
 		 */
-		protected function renderOnlyView($view): bool|string
+		protected function renderOnlyView($view, $params): bool|string
 		{
+			foreach ($params as $key => $value)
+			{
+				$$key = $value;
+			}
 			ob_start();
 			include_once Application::$ROOT_DIR . "/src/views/$view.php";
 			return ob_get_clean();
+		}
+
+		private function isCheck(mixed $callback)
+		{
+			if (is_array($callback))
+			{
+				$callback[0] = new $callback[0]();
+			}
+
+			return $callback;
 		}
 	}
