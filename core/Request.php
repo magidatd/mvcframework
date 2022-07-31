@@ -5,8 +5,14 @@
 
 	namespace app\core;
 
+	/**
+	 *
+	 */
 	class Request
 	{
+		/**
+		 * @return mixed
+		 */
 		public function getPath(): mixed
 		{
 			$path = $_SERVER['REQUEST_URI'] ?? '/';
@@ -19,6 +25,9 @@
 			return substr($path, 0, $position);
 		}
 
+		/**
+		 * @return string
+		 */
 		public function getMethod(): string
 		{
 			return strtolower($_SERVER['REQUEST_METHOD']);

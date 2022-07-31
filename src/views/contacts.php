@@ -4,5 +4,4 @@
  */
 ?>
 
-<h3>Contact</h3>
-
+<h1>Contact us</h1>
