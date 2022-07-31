@@ -31,6 +31,9 @@
 		 */
 		public static Application $app;
 
+		/**
+		 * @var \app\core\Controller
+		 */
 		public Controller $controller;
 
 		/**

@@ -44,11 +44,8 @@
 				{
 					return 'Success';
 				}
-				echo '<pre>';
-				var_dump($registerModel->errors);
-				echo '</pre>';
-				exit;
 
+				$this->setLayout('auth');
 				return $this->render('auth/register', [
 					'model' => $registerModel
 				]);

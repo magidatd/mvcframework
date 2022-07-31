@@ -1,26 +1,50 @@
 <?php
-/*
+	/*
  * Copyright (c) 2022. Magida Software - Tazvivinga Daniel Magida.
  */
 
-namespace app\models;
+	namespace app\models;
 
 	use app\core\Model;
 	use JetBrains\PhpStorm\ArrayShape;
 
+	/**
+	 *
+	 */
 	class RegisterModel extends Model
 	{
-		public string $firstname;
-		public string $lastname;
-		public string $email;
-		public string $password;
-		public string $confirmPassword;
+		/**
+		 * @var string
+		 */
+		public string $firstname = '';
+		/**
+		 * @var string
+		 */
+		public string $lastname = '';
+		/**
+		 * @var string
+		 */
+		public string $email = '';
+		/**
+		 * @var string
+		 */
+		public string $password = '';
+		/**
+		 * @var string
+		 */
+		public string $confirmPassword = '';
 
-		public function register()
+		/**
+		 * @return void
+		 */
+		public function register(): void
 		{
 			echo 'Creating new user';
 		}
 
+		/**
+		 * @return array[]
+		 */
 		#[ArrayShape(['firstname' => "array", 'lastname' => "array", 'email' => "array", 'password' => "array"])] function rules(): array
 		{
 			return [
@@ -29,7 +53,7 @@ namespace app\models;
 				'email' => [self::RULE_REQUIRED, self::RULE_EMAIL],
 				'password' => [self::RULE_REQUIRED, [self::RULE_MINIMUM, 'min' => 8], [self::RULE_MAXIMUM, 'max' =>
 					24]],
-				'confirmPassword' => [self::RULE_REQUIRED, [self::RULE_MATCH, 'match' => 'password']]
+				'confirmPassword' => [self::RULE_REQUIRED, [self::RULE_MATCH, 'match' => 'password']],
 			];
 		}
 	}
