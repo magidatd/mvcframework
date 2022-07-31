@@ -43,6 +43,11 @@
 			$this->routes['get'][$path] = $callback;
 		}
 
+		/**
+		 * @param $path
+		 * @param $callback
+		 * @return void
+		 */
 		public function post($path, $callback): void
 		{
 			$this->routes['post'][$path] = $callback;
@@ -54,23 +59,26 @@
 		public function resolve(): mixed
 		{
 			$path = $this->request->getPath();
-			$method = $this->request->getMethod();
+			$method = $this->request->method();
 
 			$callback = $this->routes[$method][$path] ?? false;
 
-			if ($callback === false)
-			{
+			if ($callback === false) {
 				$this->response->setStatusCode(404);
 				//return $this->renderContent('Not found');
 				return $this->renderView("_404");
 			}
 
-			if (is_string($callback))
-			{
+			if (is_string($callback)) {
 				return $this->renderView($callback);
 			}
 
-			return call_user_func($this->isCheck($callback), $this->request);
+			if (is_array($callback)) {
+				Application::$app->controller = new $callback[0]();
+				$callback[0] = Application::$app->controller;
+			}
+
+			return call_user_func($callback, $this->request);
 		}
 
 		/**
@@ -85,6 +93,10 @@
 			return str_replace('{{content}}', $viewContent, $layoutContent);
 		}
 
+		/**
+		 * @param $viewContent
+		 * @return array|bool|string
+		 */
 		public function renderContent($viewContent): array|bool|string
 		{
 			$layoutContent = $this->layoutContent();
@@ -96,8 +108,9 @@
 		 */
 		protected function layoutContent(): bool|string
 		{
+			$layout = Application::$app->controller->layout;
 			ob_start();
-			include_once Application::$ROOT_DIR . "/src/views/layouts/main.php";
+			include_once Application::$ROOT_DIR . "/src/views/layouts/$layout.php";
 			return ob_get_clean();
 		}
 
@@ -108,22 +121,11 @@
 		 */
 		protected function renderOnlyView($view, $params): bool|string
 		{
-			foreach ($params as $key => $value)
-			{
+			foreach ($params as $key => $value) {
 				$$key = $value;
 			}
 			ob_start();
 			include_once Application::$ROOT_DIR . "/src/views/$view.php";
 			return ob_get_clean();
-		}
-
-		private function isCheck(mixed $callback)
-		{
-			if (is_array($callback))
-			{
-				$callback[0] = new $callback[0]();
-			}
-
-			return $callback;
 		}
 	}

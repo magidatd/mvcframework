@@ -9,8 +9,14 @@
 	use app\core\Controller;
 	use app\core\Request;
 
+	/**
+	 *
+	 */
 	class SiteController extends Controller
 	{
+		/**
+		 * @return bool|array|string
+		 */
 		public function home(): bool|array|string
 		{
 			$params = [
@@ -19,18 +25,22 @@
 			return $this->render('home', $params);
 		}
 
+		/**
+		 * @return bool|array|string
+		 */
 		public function contacts(): bool|array|string
 		{
 			return $this->render('contacts');
 		}
 
+		/**
+		 * @param \app\core\Request $request
+		 * @return string
+		 */
 		public function handleContact(Request $request): string
 		{
 			$body = $request->getBody();
-			echo '<pre>';
-			var_dump($body);
-			echo '</pre>';
-			exit;
+
 			return 'Handling submitted data';
 		}
 	}

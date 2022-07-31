@@ -28,22 +28,31 @@
 		/**
 		 * @return string
 		 */
-		public function getMethod(): string
+		public function method(): string
 		{
 			return strtolower($_SERVER['REQUEST_METHOD']);
 		}
 
-		public function isGet()
+		/**
+		 * @return bool
+		 */
+		public function isGet(): bool
 		{
-			return $this->getMethod() === 'get';
+			return $this->method() === 'get';
 		}
 
-		public function isPost()
+		/**
+		 * @return bool
+		 */
+		public function isPost(): bool
 		{
-			return $this->getMethod() === 'post';
+			return $this->method() === 'post';
 		}
 
-		public function getBody()
+		/**
+		 * @return array
+		 */
+		public function getBody(): array
 		{
 			$body = [];
 
