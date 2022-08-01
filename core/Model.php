@@ -93,6 +93,21 @@
 					if ($ruleName === self::RULE_MATCH && $value !== $this->{$rule['match']}) {
 						$this->addError($attribute, self::RULE_MATCH, $rule);
 					}
+
+					if ($ruleName === self::RULE_UNIQUE) {
+						$className = $rule['class'];
+						$uniqueAttribute = $rule['attribute'] ?? $attribute;
+						$tableName = $className::tableName();
+
+						$statement = Application::$app->db->prepare("select * from $tableName where $uniqueAttribute = :attribute");
+						$statement->bindValue(":attribute", $value);
+						$statement->execute();
+
+						$record = $statement->fetchObject();
+						if ($record) {
+							$this->addError($attribute, self::RULE_UNIQUE, ['field' => $attribute]);
+						}
+					}
 				}
 			}
 
@@ -124,8 +139,8 @@
 				self::RULE_EMAIL => 'This field must be a valid email address',
 				self::RULE_MINIMUM => 'Minimum length of this field must be {min}',
 				self::RULE_MAXIMUM => 'Maximum length of this field must be {max}',
-				self::RULE_UNIQUE => 'This field must be unique',
 				self::RULE_MATCH => 'This field must match {match}',
+				self::RULE_UNIQUE => 'Record with this {field} already exists',
 			];
 		}
 

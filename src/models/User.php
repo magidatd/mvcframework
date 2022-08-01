@@ -14,10 +14,14 @@
 	 */
 	class User extends DbModel
 	{
+		const STATUS_ACTIVE = 1;
+		const STATUS_INACTIVE = 0;
+		const STATUS_DELETED = 2;
+
 		/**
 		 * @var array|string[]
 		 */
-		public array $excludeColumns = ["id", "status", "created_at"];
+		public array $excludeColumns = ["id", "created_at"];
 		/**
 		 * @var string
 		 */
@@ -30,6 +34,7 @@
 		 * @var string
 		 */
 		public string $email = '';
+		public int $status = self::STATUS_INACTIVE;
 		/**
 		 * @var string
 		 */
@@ -52,6 +57,7 @@
 		 */
 		public function save(): bool
 		{
+			$this->status = self::STATUS_INACTIVE;
 			$this->password = password_hash($this->password, PASSWORD_DEFAULT);
 			return parent::save();
 		}
@@ -64,7 +70,7 @@
 			return [
 				'firstname' => [self::RULE_REQUIRED],
 				'lastname' => [self::RULE_REQUIRED],
-				'email' => [self::RULE_REQUIRED, self::RULE_EMAIL],
+				'email' => [self::RULE_REQUIRED, self::RULE_EMAIL, [self::RULE_UNIQUE, 'class' => self::class]],
 				'password' => [self::RULE_REQUIRED, [self::RULE_MINIMUM, 'min' => 8], [self::RULE_MAXIMUM, 'max' =>
 					24]],
 				'confirmPassword' => [self::RULE_REQUIRED, [self::RULE_MATCH, 'match' => 'password']],
