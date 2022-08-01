@@ -1,13 +1,13 @@
 <?php
 	/*
-	 * Copyright (c) 2022. Magida Software - Tazvivinga Daniel Magida.
-	 */
+ * Copyright (c) 2022. Magida Software - Tazvivinga Daniel Magida.
+ */
 
 	namespace app\controllers;
 
 	use app\core\Controller;
 	use app\core\Request;
-	use app\models\RegisterModel;
+	use app\models\User;
 
 	/**
 	 *
@@ -20,8 +20,7 @@
 		 */
 		public function login(Request $request): bool|array|string
 		{
-			if ($request->isPost())
-			{
+			if ($request->isPost()) {
 				return 'Handling submitted data';
 			}
 			$this->setLayout('auth');
@@ -34,26 +33,24 @@
 		 */
 		public function register(Request $request): bool|array|string
 		{
-			$registerModel = new RegisterModel();
+			$user = new User();
 
-			if ($request->isPost())
-			{
-				$registerModel->loadData($request->getBody());
+			if ($request->isPost()) {
+				$user->loadData($request->getBody());
 
-				if ($registerModel->validate() && $registerModel->register())
-				{
+				if ($user->validate() && $user->save()) {
 					return 'Success';
 				}
 
 				$this->setLayout('auth');
 				return $this->render('auth/register', [
-					'model' => $registerModel
+					'model' => $user,
 				]);
 			}
 
 			$this->setLayout('auth');
 			return $this->render('auth/register', [
-				'model' => $registerModel
+				'model' => $user,
 			]);
 		}
 	}

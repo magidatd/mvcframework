@@ -5,14 +5,19 @@
 
 	namespace app\models;
 
-	use app\core\Model;
+	use app\core\Application;
+	use app\core\DbModel;
 	use JetBrains\PhpStorm\ArrayShape;
 
 	/**
 	 *
 	 */
-	class RegisterModel extends Model
+	class User extends DbModel
 	{
+		/**
+		 * @var array|string[]
+		 */
+		public array $excludeColumns = ["id", "status", "created_at"];
 		/**
 		 * @var string
 		 */
@@ -35,11 +40,20 @@
 		public string $confirmPassword = '';
 
 		/**
-		 * @return void
+		 * @return string
 		 */
-		public function register(): void
+		public function tableName(): string
 		{
-			echo 'Creating new user';
+			return 'users';
+		}
+
+		/**
+		 * @return bool
+		 */
+		public function save(): bool
+		{
+			$this->password = password_hash($this->password, PASSWORD_DEFAULT);
+			return parent::save();
 		}
 
 		/**
@@ -55,5 +69,21 @@
 					24]],
 				'confirmPassword' => [self::RULE_REQUIRED, [self::RULE_MATCH, 'match' => 'password']],
 			];
+		}
+
+		/**
+		 * @param $table
+		 * @return array
+		 */
+		public function attributes($table): array
+		{
+			$columns = [];
+
+			$statement = Application::$app->db->pdo->query("select * from $table limit 0");
+			for ($i = 0; $i < $statement->columnCount(); $i++) {
+				$col = $statement->getColumnMeta($i);
+				$columns[] = $col['name'];
+			}
+			return array_diff($columns, $this->excludeColumns);
 		}
 	}
