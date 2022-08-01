@@ -29,9 +29,10 @@
 		}
 
 		/**
+		 * @param $direction
 		 * @return void
 		 */
-		public function applyMigrations(): void
+		public function applyMigrations($direction): void
 		{
 			$this->createMigrationsTable();
 			$appliedMigrations = $this->getAppliedMigrations();
@@ -50,7 +51,12 @@
 				$instance = new $className();
 
 				$this->log("Applying migration $migration");
-				$instance->up();
+				if ($direction === 'up') {
+					$instance->up();
+				}
+				else {
+					$instance->down();
+				}
 				$this->log("Applied migration $migration");
 				$newMigrations[] = $migration;
 			}
