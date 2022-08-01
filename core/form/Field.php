@@ -37,22 +37,16 @@
 		 * @var string
 		 */
 		public string $attribute;
-		/**
-		 * @var string
-		 */
-		public string $label;
 
 		/**
 		 * @param \app\core\Model $model
 		 * @param string          $attribute
-		 * @param string          $label
 		 */
-		public function __construct(Model $model, string $attribute, string $label)
+		public function __construct(Model $model, string $attribute)
 		{
 			$this->type = self::TYPE_TEXT;
 			$this->model = $model;
 			$this->attribute = $attribute;
-			$this->label = $label;
 		}
 
 		/**
@@ -67,7 +61,7 @@
 				<div class="invalid-feedback">%s</div>
 			</div>',
 				$this->attribute,
-				$this->label,
+				$this->model->getLabel($this->attribute),
 				$this->type,
 				$this->model->hasError($this->attribute) ? ' is-invalid' : '',
 				$this->attribute,

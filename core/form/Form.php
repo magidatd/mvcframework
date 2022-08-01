@@ -34,11 +34,10 @@
 		/**
 		 * @param \app\core\Model $model
 		 * @param                 $attribute
-		 * @param                 $label
 		 * @return \app\core\form\Field
 		 */
-		public function field(Model $model, $attribute, $label): Field
+		public function field(Model $model, $attribute): Field
 		{
-			return new Field($model, $attribute, $label);
+			return new Field($model, $attribute);
 		}
 	}

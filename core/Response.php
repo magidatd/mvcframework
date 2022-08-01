@@ -1,7 +1,7 @@
 <?php
 	/*
-	 * Copyright (c) 2022. Magida Software - Tazvivinga Daniel Magida.
-	 */
+ * Copyright (c) 2022. Magida Software - Tazvivinga Daniel Magida.
+ */
 
 	namespace app\core;
 
@@ -17,5 +17,10 @@
 		public function setStatusCode(int $code): void
 		{
 			http_response_code($code);
+		}
+
+		public function redirect(string $url)
+		{
+			header('Location: ' . $url);
 		}
 	}

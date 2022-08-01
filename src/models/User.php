@@ -92,4 +92,15 @@
 			}
 			return array_diff($columns, $this->excludeColumns);
 		}
+
+		public function labels(): array
+		{
+			return [
+				'firstname' => 'First Name',
+				'lastname' => 'Last Name',
+				'email' => 'Email Address',
+				'password' => 'Password',
+				'confirmPassword' => 'Password Confirmation',
+			];
+		}
 	}
