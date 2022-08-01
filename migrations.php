@@ -17,7 +17,7 @@
 		],
 	];
 
-	$app = new Application(dirname(__DIR__), $config);
+	$app = new Application(__DIR__, $config);
 
 
 	$app->db->applyMigrations();
