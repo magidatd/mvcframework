@@ -24,7 +24,7 @@
 		/**
 		 * @return string
 		 */
-		abstract public function primaryKey(): string;
+		abstract static public function primaryKey(): string;
 
 		/**
 		 * @return bool

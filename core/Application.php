@@ -52,6 +52,14 @@
 		public ?DbModel $user;
 
 		/**
+		 * @return bool
+		 */
+		public static function isGuest(): bool
+		{
+			return !self::$app->user;
+		}
+
+		/**
 		 * @return \app\core\Controller
 		 */
 		public function getController(): Controller
@@ -89,6 +97,9 @@
 				$primaryKey = $this->userClass::primaryKey();
 				$this->user = $this->userClass::findOne([$primaryKey => $primaryValue]);
 			}
+			else {
+				$this->user = null;
+			}
 		}
 
 		/**
@@ -101,13 +112,25 @@
 
 		/**
 		 * @param \app\core\DbModel $user
-		 * @return void
+		 * @return bool
 		 */
-		public function login(DbModel $user): void
+		public function login(DbModel $user): bool
 		{
 			$this->user = $user;
 			$primaryKey = $user->primaryKey();
 			$primaryValue = $user->{$primaryKey};
 			$this->session->set('user', $primaryValue);
+
+			return true;
+		}
+
+		/**
+		 * @return void
+		 */
+		public function logout(): void
+		{
+			$this->user = null;
+
+			$this->session->remove('user');
 		}
 	}

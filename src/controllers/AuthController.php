@@ -20,9 +20,9 @@
 		/**
 		 * @param \app\core\Request  $request
 		 * @param \app\core\Response $response
-		 * @return bool|array|string|null
+		 * @return array|bool|string|void
 		 */
-		public function login(Request $request, Response $response,): bool|array|string|null
+		public function login(Request $request, Response $response,)
 		{
 			$loginForm = new LoginForm();
 			if ($request->isPost()) {
@@ -30,7 +30,7 @@
 
 				if ($loginForm->validate() && $loginForm->login()) {
 					$response->redirect('/');
-					exit;
+					return;
 				}
 			}
 			$this->setLayout('auth');

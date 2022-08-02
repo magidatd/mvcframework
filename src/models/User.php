@@ -6,13 +6,13 @@
 	namespace app\models;
 
 	use app\core\Application;
-	use app\core\DbModel;
+	use app\core\UserModel;
 	use JetBrains\PhpStorm\ArrayShape;
 
 	/**
 	 *
 	 */
-	class User extends DbModel
+	class User extends UserModel
 	{
 		/**
 		 *
@@ -67,7 +67,7 @@
 		/**
 		 * @return string
 		 */
-		public function primaryKey(): string
+		public static function primaryKey(): string
 		{
 			return 'id';
 		}
@@ -139,5 +139,13 @@
 				'password' => 'Type your password',
 				'confirmPassword' => 'Retype your password',
 			];
+		}
+
+		/**
+		 * @return string
+		 */
+		public function getDisplayName(): string
+		{
+			return $this->firstname . ' ' . $this->lastname;
 		}
 	}

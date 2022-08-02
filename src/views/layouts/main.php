@@ -2,6 +2,7 @@
 	/*
  * Copyright (c) 2022. Magida Software - Tazvivinga Daniel Magida.
  */
+
 ?>
 
 <!doctype html>
@@ -32,14 +33,25 @@
 							<a class="nav-link" href="/contacts">Contact Us</a>
 						</li>
 					</ul>
-					<ul class="navbar-nav ml-auto mb-2 mb-lg-0">
-						<li class="nav-item">
-							<a class="nav-link" href="/register">Register</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/login">Login</a>
-						</li>
-					</ul>
+					<?php if (\app\core\Application::isGuest()): ?>
+						<ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link" href="/register">Register</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="/login">Login</a>
+							</li>
+						</ul>
+					<?php else: ?>
+						<ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link"><?php echo \app\core\Application::$app->user->getDisplayName() ?></a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="/logout">Logout</a>
+							</li>
+						</ul>
+					<?php endif; ?>
 				</div>
 			</div>
 		</nav>
