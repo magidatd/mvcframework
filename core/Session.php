@@ -71,6 +71,15 @@
 		}
 
 		/**
+		 * @param $key
+		 * @return void
+		 */
+		public function remove($key): void
+		{
+			unset($_SESSION[$key]);
+		}
+
+		/**
 		 *
 		 */
 		public function __destruct()
