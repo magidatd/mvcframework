@@ -11,6 +11,10 @@
 	class Application
 	{
 		/**
+		 * @var string|mixed
+		 */
+		public string $userClass;
+		/**
 		 * @var string
 		 */
 		public static string $ROOT_DIR;
@@ -26,6 +30,9 @@
 		 * @var \app\core\Response
 		 */
 		public Response $response;
+		/**
+		 * @var \app\core\Session
+		 */
 		public Session $session;
 		/**
 		 * @var \app\core\Database
@@ -35,11 +42,14 @@
 		 * @var \app\core\Application
 		 */
 		public static Application $app;
-
 		/**
 		 * @var \app\core\Controller
 		 */
 		public Controller $controller;
+		/**
+		 * @var \app\core\DbModel|null
+		 */
+		public ?DbModel $user;
 
 		/**
 		 * @return \app\core\Controller
@@ -63,6 +73,7 @@
 		 */
 		public function __construct($rootPath, array $config)
 		{
+			$this->userClass = $config['userClass'];
 			self::$ROOT_DIR = $rootPath;
 			self::$app = $this;
 			$this->request = new Request();
@@ -71,6 +82,13 @@
 			$this->router = new Router($this->request, $this->response);
 
 			$this->db = new Database($config['db']);
+
+			$primaryValue = $this->session->get('user');
+
+			if ($primaryValue) {
+				$primaryKey = $this->userClass::primaryKey();
+				$this->user = $this->userClass::findOne([$primaryKey => $primaryValue]);
+			}
 		}
 
 		/**
@@ -79,5 +97,17 @@
 		public function run(): void
 		{
 			echo $this->router->resolve();
+		}
+
+		/**
+		 * @param \app\core\DbModel $user
+		 * @return void
+		 */
+		public function login(DbModel $user): void
+		{
+			$this->user = $user;
+			$primaryKey = $user->primaryKey();
+			$primaryValue = $user->{$primaryKey};
+			$this->session->set('user', $primaryValue);
 		}
 	}

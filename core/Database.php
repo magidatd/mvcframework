@@ -106,6 +106,10 @@
 			$statement->execute();
 		}
 
+		/**
+		 * @param $sql
+		 * @return bool|\PDOStatement
+		 */
 		public function prepare($sql): bool|\PDOStatement
 		{
 			return $this->pdo->prepare($sql);

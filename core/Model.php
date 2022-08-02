@@ -60,22 +60,36 @@
 		 */
 		abstract function rules(): array;
 
+		/**
+		 * @return array
+		 */
 		public function labels(): array
 		{
 			return [];
 		}
 
+		/**
+		 * @return array
+		 */
 		public function placeholders(): array
 		{
 			return [];
 		}
 
-		public function getLabel($attribute)
+		/**
+		 * @param $attribute
+		 * @return mixed
+		 */
+		public function getLabel($attribute): mixed
 		{
 			return $this->labels()[$attribute] ?? $attribute;
 		}
 
-		public function getPlaceholder($attribute)
+		/**
+		 * @param $attribute
+		 * @return mixed
+		 */
+		public function getPlaceholder($attribute): mixed
 		{
 			return $this->placeholders()[$attribute] ?? $attribute;
 		}
@@ -150,6 +164,11 @@
 			$this->errors[$attribute][] = $message;
 		}
 
+		/**
+		 * @param string $attribute
+		 * @param string $message
+		 * @return void
+		 */
 		public function addError(string $attribute, string $message): void
 		{
 			$this->errors[$attribute][] = $message;

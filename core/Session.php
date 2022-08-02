@@ -5,10 +5,19 @@
 
 	namespace app\core;
 
+	/**
+	 *
+	 */
 	class Session
 	{
+		/**
+		 *
+		 */
 		protected const FLASH_KEY = 'flash_messages';
 
+		/**
+		 *
+		 */
 		public function __construct()
 		{
 			session_start();
@@ -20,7 +29,12 @@
 			$_SESSION[self::FLASH_KEY] = $flashMessages;
 		}
 
-		public function setFlash($key, $message)
+		/**
+		 * @param $key
+		 * @param $message
+		 * @return void
+		 */
+		public function setFlash($key, $message): void
 		{
 			$_SESSION[self::FLASH_KEY][$key] = [
 				'remove' => false,
@@ -28,11 +42,37 @@
 			];
 		}
 
-		public function getFlash($key)
+		/**
+		 * @param $key
+		 * @return false|mixed
+		 */
+		public function getFlash($key): mixed
 		{
 			return $_SESSION[self::FLASH_KEY][$key]['value'] ?? false;
 		}
 
+		/**
+		 * @param $key
+		 * @param $value
+		 * @return void
+		 */
+		public function set($key, $value): void
+		{
+			$_SESSION[$key] = $value;
+		}
+
+		/**
+		 * @param $key
+		 * @return false|mixed
+		 */
+		public function get($key): mixed
+		{
+			return $_SESSION[$key] ?? false;
+		}
+
+		/**
+		 *
+		 */
 		public function __destruct()
 		{
 			$flashMessages = $_SESSION[self::FLASH_KEY] ?? [];

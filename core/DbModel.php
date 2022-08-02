@@ -5,12 +5,30 @@
 
 	namespace app\core;
 
+	/**
+	 *
+	 */
 	abstract class DbModel extends Model
 	{
+		/**
+		 * @return string
+		 */
 		abstract static public function tableName(): string;
 
+		/**
+		 * @param $table
+		 * @return array
+		 */
 		abstract public function attributes($table): array;
 
+		/**
+		 * @return string
+		 */
+		abstract public function primaryKey(): string;
+
+		/**
+		 * @return bool
+		 */
 		public function save(): bool
 		{
 			$tableName = $this->tableName();
@@ -28,7 +46,11 @@
 			return true;
 		}
 
-		public static function findOne($where)
+		/**
+		 * @param $where
+		 * @return \app\core\DbModel|false|mixed|object|\stdClass|null
+		 */
+		public static function findOne($where): mixed
 		{
 			$tableName = static::tableName();
 			$attributes = array_keys($where);
@@ -44,6 +66,10 @@
 			return $statement->fetchObject(static::class);
 		}
 
+		/**
+		 * @param $sql
+		 * @return bool|\PDOStatement
+		 */
 		public static function prepare($sql): bool|\PDOStatement
 		{
 			return Application::$app->db->pdo->prepare($sql);

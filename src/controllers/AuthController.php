@@ -17,6 +17,11 @@
 	 */
 	class AuthController extends Controller
 	{
+		/**
+		 * @param \app\core\Request  $request
+		 * @param \app\core\Response $response
+		 * @return bool|array|string|null
+		 */
 		public function login(Request $request, Response $response,): bool|array|string|null
 		{
 			$loginForm = new LoginForm();

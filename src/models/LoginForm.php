@@ -7,13 +7,26 @@
 
 	use app\core\Application;
 	use app\core\Model;
+	use JetBrains\PhpStorm\ArrayShape;
 
+	/**
+	 *
+	 */
 	class LoginForm extends Model
 	{
+		/**
+		 * @var string
+		 */
 		public string $email = '';
+		/**
+		 * @var string
+		 */
 		public string $password = '';
 
-		public function rules(): array
+		/**
+		 * @return array[]
+		 */
+		#[ArrayShape(['email' => "array", 'password' => "array"])] public function rules(): array
 		{
 			return [
 				'email' => [self::RULE_REQUIRED, self::RULE_EMAIL],
@@ -21,7 +34,10 @@
 			];
 		}
 
-		public function labels(): array
+		/**
+		 * @return string[]
+		 */
+		#[ArrayShape(['email' => "string", 'password' => "string"])] public function labels(): array
 		{
 			return [
 				'email' => 'Email Address',
@@ -29,7 +45,10 @@
 			];
 		}
 
-		public function placeholders(): array
+		/**
+		 * @return string[]
+		 */
+		#[ArrayShape(['email' => "string", 'password' => "string"])] public function placeholders(): array
 		{
 			return [
 				'email' => 'Enter your email address',
@@ -37,6 +56,9 @@
 			];
 		}
 
+		/**
+		 * @return false|void
+		 */
 		public function login()
 		{
 			$user = User::findOne(['email' => $this->email]);

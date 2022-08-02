@@ -14,8 +14,17 @@
 	 */
 	class User extends DbModel
 	{
+		/**
+		 *
+		 */
 		const STATUS_ACTIVE = 1;
+		/**
+		 *
+		 */
 		const STATUS_INACTIVE = 0;
+		/**
+		 *
+		 */
 		const STATUS_DELETED = 2;
 
 		/**
@@ -34,6 +43,9 @@
 		 * @var string
 		 */
 		public string $email = '';
+		/**
+		 * @var int
+		 */
 		public int $status = self::STATUS_INACTIVE;
 		/**
 		 * @var string
@@ -50,6 +62,14 @@
 		public static function tableName(): string
 		{
 			return 'users';
+		}
+
+		/**
+		 * @return string
+		 */
+		public function primaryKey(): string
+		{
+			return 'id';
 		}
 
 		/**
@@ -93,7 +113,10 @@
 			return array_diff($columns, $this->excludeColumns);
 		}
 
-		public function labels(): array
+		/**
+		 * @return string[]
+		 */
+		#[ArrayShape(['firstname' => "string", 'lastname' => "string", 'email' => "string", 'password' => "string", 'confirmPassword' => "string"])] public function labels(): array
 		{
 			return [
 				'firstname' => 'First Name',
@@ -104,7 +127,10 @@
 			];
 		}
 
-		public function placeholders(): array
+		/**
+		 * @return string[]
+		 */
+		#[ArrayShape(['firstname' => "string", 'lastname' => "string", 'email' => "string", 'password' => "string", 'confirmPassword' => "string"])] public function placeholders(): array
 		{
 			return [
 				'firstname' => 'Type your first name',
