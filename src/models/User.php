@@ -47,7 +47,7 @@
 		/**
 		 * @return string
 		 */
-		public function tableName(): string
+		public static function tableName(): string
 		{
 			return 'users';
 		}
@@ -101,6 +101,17 @@
 				'email' => 'Email Address',
 				'password' => 'Password',
 				'confirmPassword' => 'Password Confirmation',
+			];
+		}
+
+		public function placeholders(): array
+		{
+			return [
+				'firstname' => 'Type your first name',
+				'lastname' => 'Type your last name',
+				'email' => 'Type your email address',
+				'password' => 'Type your password',
+				'confirmPassword' => 'Retype your password',
 			];
 		}
 	}

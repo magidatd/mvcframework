@@ -8,6 +8,8 @@
 	use app\core\Application;
 	use app\core\Controller;
 	use app\core\Request;
+	use app\core\Response;
+	use app\models\LoginForm;
 	use app\models\User;
 
 	/**
@@ -15,17 +17,21 @@
 	 */
 	class AuthController extends Controller
 	{
-		/**
-		 * @param \app\core\Request $request
-		 * @return bool|array|string
-		 */
-		public function login(Request $request): bool|array|string
+		public function login(Request $request, Response $response,): bool|array|string|null
 		{
+			$loginForm = new LoginForm();
 			if ($request->isPost()) {
-				return 'Handling submitted data';
+				$loginForm->loadData($request->getBody());
+
+				if ($loginForm->validate() && $loginForm->login()) {
+					$response->redirect('/');
+					exit;
+				}
 			}
 			$this->setLayout('auth');
-			return $this->render('auth/login');
+			return $this->render('auth/login', [
+				'model' => $loginForm,
+			]);
 		}
 
 		/**

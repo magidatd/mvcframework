@@ -66,7 +66,7 @@
 				$this->model->hasError($this->attribute) ? ' is-invalid' : '',
 				$this->attribute,
 				$this->attribute,
-				$this->attribute,
+				$this->model->getPlaceholder($this->attribute),
 				$this->model->{$this->attribute},
 				$this->model->getFirstError($this->attribute));
 		}

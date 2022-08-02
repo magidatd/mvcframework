@@ -3,9 +3,7 @@
  * Copyright (c) 2022. Magida Software - Tazvivinga Daniel Magida.
  */
 
-	/** @var $model */
-
-	use app\core\Model;
+	/** @var $model \app\models\User */
 
 ?>
 
